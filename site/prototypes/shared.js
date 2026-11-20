@@ -13,6 +13,10 @@ export function el(tag, props = {}, ...children) {
   return node;
 }
 
+// What the site calls the recipes' author. Her pages say "Mom", "Mother",
+// "Nana Faithann" or "Mim"; the family will decide. Change it here only.
+export const MOTHER = "Mother";
+
 const field = (name) => document.querySelector(`[data-field="${name}"]`);
 const fill = (name, ...nodes) => field(name)?.append(...nodes);
 
@@ -22,6 +26,7 @@ export async function renderRecipe({ base = "../", checkable = false, stepLabel 
   const src = (p) => base + p;
 
   document.title = `${r.title} | Karatassos Family Recipes`;
+  document.querySelectorAll("[data-mother]").forEach((n) => (n.textContent = MOTHER));
   fill("title", r.title);
   fill("subtitle", r.subtitle);
   fill("category", r.category);
@@ -50,7 +55,7 @@ export async function renderRecipe({ base = "../", checkable = false, stepLabel 
   ));
   fill("notes", ...r.notes.map((t) => el("p", { text: t })));
 
-  const scan = (s) => el("img", { src: src(s.src), alt: `Mom's handwritten ${r.title} recipe, page ${s.page}`, width: "1314", height: "1700" });
+  const scan = (s) => el("img", { src: src(s.src), alt: `${MOTHER}'s handwritten ${r.title} recipe, page ${s.page}`, width: "1314", height: "1700" });
   fill("scans", ...r.scans.map(scan));
   fill("printScans", ...r.scans.map(scan));
   fill("thumb", scan(r.scans[0]));
