@@ -50,16 +50,21 @@
     .card::before, .card::after { content: ""; position: absolute; pointer-events: none; border: 1px solid var(--gold); border-radius: 10px; }
     .card::before { inset: 12px; }
     .card::after { inset: 17px; opacity: 0.45; border-radius: 7px; }
-    .corner { position: absolute; width: clamp(84px, 18vw, 150px); pointer-events: none; }
+    .card { --corner: clamp(84px, 18vw, 150px); }
+    .corner { position: absolute; width: var(--corner); pointer-events: none; }
     .c-tl { top: 22px; left: 22px; }
     .c-tr { top: 22px; right: 22px; transform: scaleX(-1); }
     .c-bl { bottom: 22px; left: 22px; transform: scaleY(-1); }
     .c-br { bottom: 22px; right: 22px; transform: scale(-1); }
 
-    .head { text-align: center; }
-    .crown { display: flex; justify-content: center; align-items: flex-start; gap: 0.75rem; margin: 0 auto 0.75rem; }
-    .crown .laurel { width: clamp(130px, 32vw, 200px); }
-    .crown .chain { width: clamp(44px, 10vw, 84px); margin-top: 2px; }
+    .head { text-align: center; padding-top: clamp(1.75rem, 5vw, 2.75rem); }
+    /* Top of the page, as on Mother's: diamond chains run from the corner vines in to a leaf garland */
+    .crown { position: absolute; top: 30px; left: calc(22px + var(--corner) + 6px); right: calc(22px + var(--corner) + 6px); display: flex; align-items: flex-start; gap: 8px; pointer-events: none; }
+    .crown .link { flex: 1; min-width: 0; height: 12px; margin-top: 2px; background: url(../assets/ornaments/chain-link.svg) right center / 16px 12px; background-repeat: round no-repeat; }
+    .crown .link:last-child { background-position: left center; }
+    .crown .cap { flex: none; width: 12px; height: 12px; margin-top: 2px; }
+    .crown .garland { flex: none; width: clamp(120px, 30vw, 240px); margin-top: 8px; }
+    @media (max-width: 520px) { .crown .link, .crown .cap { display: none; } .crown { justify-content: center; } }
     h1 { margin: 0; font-size: clamp(2.4rem, 7vw, 3.4rem); line-height: 1.1; font-weight: 600; color: var(--aegean); letter-spacing: -0.02em; }
     .subtitle { margin: 0.35rem 0 0; color: var(--muted); }
     .times { display: flex; justify-content: center; gap: 1.5rem; margin: 1rem 0 0; font-size: 0.95rem; }
@@ -165,13 +170,15 @@
       <img class="corner c-tr" src="../assets/ornaments/corner.svg" alt="">
       <img class="corner c-bl" src="../assets/ornaments/corner.svg" alt="">
       <img class="corner c-br" src="../assets/ornaments/corner.svg" alt="">
+      <div class="crown" aria-hidden="true">
+        <span class="link"></span>
+        <img class="cap" src="../assets/ornaments/chain-end.svg" alt="">
+        <img class="garland" src="../assets/ornaments/garland.svg" alt="">
+        <img class="cap" src="../assets/ornaments/chain-end.svg" alt="">
+        <span class="link"></span>
+      </div>
 
       <header class="head">
-        <div class="crown" aria-hidden="true">
-          <img class="chain" src="../assets/ornaments/chain.svg" alt="">
-          <img class="laurel" src="../assets/ornaments/garland.svg" alt="">
-          <img class="chain" src="../assets/ornaments/chain.svg" alt="">
-        </div>
         <h1 data-field="title"></h1>
         <p class="subtitle" data-field="subtitle"></p>
         <dl class="times" data-field="times"></dl>

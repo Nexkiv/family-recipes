@@ -3,8 +3,8 @@ printed scrollwork on Mother's recipe pages).
 
   python tools/ornaments.py site/assets/ornaments
 
-Writes garland.svg (the leaf arch over the title) and chain.svg (the
-diamond-and-dot strip). corner.svg is hand-drawn and edited directly.
+Writes garland.svg (the leaf arch over the title) and chain-link.svg +
+chain-end.svg (the diamond-and-dot strip, repeated by CSS). corner.svg is hand-drawn and edited directly.
 """
 import math
 import sys
@@ -98,19 +98,21 @@ def garland():
             f'<path d="{" ".join(veins)}" fill="{VEIN}" opacity="0.55"/></svg>')
 
 
-def chain(n=8):
-    """Diamonds alternating with dots, ending in an outlined diamond."""
-    parts, x = [], 10
-    for _ in range(n):
-        parts.append(f'<path d="M{x - 5} 6 L{x} 1 L{x + 5} 6 L{x} 11Z"/>')
-        parts.append(f'<circle cx="{x + 8}" cy="6" r="1.6"/>')
-        x += 16
-    parts.append(f'<path d="M{x - 5} 6 L{x} 1 L{x + 5} 6 L{x} 11Z" fill="none" stroke="{GOLD}" stroke-width="1.2"/>')
-    return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="4 0 {x + 2} 12"><g fill="{GOLD}">{"".join(parts)}</g></svg>'
+def chain_link():
+    """One diamond and one dot; CSS repeats it to any length."""
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 12"><g fill="{GOLD}">'
+            f'<path d="M1 6 L6 1 L11 6 L6 11Z"/><circle cx="13.5" cy="6" r="1.5"/></g></svg>')
+
+
+def chain_end():
+    """Outlined diamond that finishes a chain."""
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">'
+            f'<path d="M1 6 L6 1 L11 6 L6 11Z" fill="none" stroke="{GOLD}" stroke-width="1.2"/></svg>')
 
 
 if __name__ == "__main__":
     out = Path(sys.argv[1])
     (out / "garland.svg").write_text(garland())
-    (out / "chain.svg").write_text(chain())
-    print("wrote garland.svg, chain.svg")
+    (out / "chain-link.svg").write_text(chain_link())
+    (out / "chain-end.svg").write_text(chain_end())
+    print("wrote garland.svg, chain-link.svg, chain-end.svg")
