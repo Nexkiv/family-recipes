@@ -63,8 +63,38 @@
     .crown .link { flex: 1; min-width: 0; height: 12px; margin-top: 2px; background: url(../assets/ornaments/chain-link.svg) right center / 16px 12px; background-repeat: round no-repeat; }
     .crown .link:last-child { background-position: left center; }
     .crown .cap { flex: none; width: 12px; height: 12px; margin-top: 2px; }
-    .crown .garland { flex: none; width: clamp(120px, 30vw, 240px); margin-top: 8px; }
+    .crown .garland { flex: none; width: clamp(140px, 34vw, 300px); margin-top: 4px; }
     @media (max-width: 520px) { .crown .link, .crown .cap { display: none; } .crown { justify-content: center; } }
+
+    /* Diamond chains down both sides and across the bottom, between the corners */
+    .chain-v, .chain-h { position: absolute; pointer-events: none; }
+    .chain-v {
+      width: 12px;
+      top: calc(22px + var(--corner) * 1.372 + 12px);
+      bottom: calc(22px + var(--corner) * 0.72 + 12px);
+      background: url(../assets/ornaments/chain-end.svg) top center / 12px 12px no-repeat,
+                  url(../assets/ornaments/chain-end.svg) bottom center / 12px 12px no-repeat,
+                  url(../assets/ornaments/chain-link-v.svg) center top / 12px 16px repeat-y;
+      /* links fill only the space between the two end diamonds */
+      padding: 14px 0;
+      background-origin: border-box, border-box, content-box;
+      background-clip: border-box, border-box, content-box;
+    }
+    .chain-v.left { left: 26px; }
+    .chain-v.right { right: 26px; }
+    .chain-h {
+      height: 12px;
+      bottom: 32px;
+      left: calc(22px + var(--corner) + 10px);
+      right: calc(22px + var(--corner) + 10px);
+      background: url(../assets/ornaments/chain-end.svg) left center / 12px 12px no-repeat,
+                  url(../assets/ornaments/chain-end.svg) right center / 12px 12px no-repeat,
+                  url(../assets/ornaments/chain-link.svg) left center / 16px 12px repeat-x;
+      padding: 0 14px;
+      background-origin: border-box, border-box, content-box;
+      background-clip: border-box, border-box, content-box;
+    }
+    @media (max-width: 699px) { .chain-v { display: none; } }
     h1 { margin: 0; font-size: clamp(2.4rem, 7vw, 3.4rem); line-height: 1.1; font-weight: 600; color: var(--aegean); letter-spacing: -0.02em; }
     .subtitle { margin: 0.35rem 0 0; color: var(--muted); }
     .times { display: flex; justify-content: center; gap: 1.5rem; margin: 1rem 0 0; font-size: 0.95rem; }
@@ -170,6 +200,9 @@
       <img class="corner c-tr" src="../assets/ornaments/corner-tall.svg" alt="">
       <img class="corner c-bl" src="../assets/ornaments/corner.svg" alt="">
       <img class="corner c-br" src="../assets/ornaments/corner.svg" alt="">
+      <span class="chain-v left" aria-hidden="true"></span>
+      <span class="chain-v right" aria-hidden="true"></span>
+      <span class="chain-h" aria-hidden="true"></span>
       <div class="crown" aria-hidden="true">
         <span class="link"></span>
         <img class="cap" src="../assets/ornaments/chain-end.svg" alt="">

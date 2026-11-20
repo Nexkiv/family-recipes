@@ -3,15 +3,14 @@ printed scrollwork on Mother's recipe pages).
 
   python tools/ornaments.py site/assets/ornaments
 
-Writes garland.svg (the leaf arch over the title) and chain-link.svg +
-chain-end.svg (the diamond-and-dot strip, repeated by CSS). corner.svg is hand-drawn and edited directly.
+Writes garland.svg (the leaf arch over the title) and chain-link.svg,
+chain-link-v.svg + chain-end.svg (the diamond-and-bead strips, repeated by CSS). corner.svg is hand-drawn and edited directly.
 """
 import math
 import sys
 from pathlib import Path
 
 GOLD = "#B48E67"
-VEIN = "#FFFFFF"
 
 
 def bez(p0, p1, p2, p3, t):
@@ -66,42 +65,39 @@ def simple_leaf(x, y, ang, length, width, bend=0.0):
     return blade(P(0, 0), P(length * 0.35, bend * length * 0.2), P(length * 0.7, bend * length * 0.5), P(length, bend * length), width)
 
 
-def vein(x, y, ang, length, bend=0.0):
-    ca, sa = math.cos(ang), math.sin(ang)
-    P = lambda u, v: (x + u * ca - v * sa, y + u * sa + v * ca)
-    return stem(P(length * 0.08, 0), P(length * 0.35, bend * length * 0.2), P(length * 0.6, bend * length * 0.45), P(length * 0.85, bend * length * 0.8), 0.9, 0.2, 16)
-
-
 def garland():
-    """Arch of broad leaves with center veins, two branches meeting at the top."""
-    leaves, veins, stems = [], [], []
+    """Arch of broad, plain leaves: one stem that crosses the top center and droops
+    out to each side, leaves pointing steeply outward (as on Mother's printed page)."""
+    stems, leaves = [], []
+    # one continuous stem across the middle
+    stems.append(stem((286, 16), (294, 13), (306, 13), (314, 16), 2.4, 2.4, 10))
     for side in (-1, 1):
-        p0, p1, p2, p3 = (300 + side * 12, 14), (300 + side * 80, 6), (300 + side * 170, 22), (300 + side * 262, 62)
-        stems.append(stem(p0, p1, p2, p3, 2.6, 1.4))
+        p0, p1, p2, p3 = (300 + side * 12, 15), (300 + side * 70, 10), (300 + side * 170, 30), (300 + side * 250, 82)
+        stems.append(stem(p0, p1, p2, p3, 2.6, 1.6))
         n = 7
         for k in range(n):
-            t = 0.08 + 0.86 * k / n
+            t = 0.06 + 0.84 * k / n
             x, y = bez(p0, p1, p2, p3, t)
             x2, y2 = bez(p0, p1, p2, p3, min(t + 0.01, 1))
             ang = math.atan2(y2 - y, x2 - x)
-            s = 1 - 0.25 * k / n
+            s = 1 - 0.12 * k / n
             for up in (-1, 1):
-                a = ang + up * 0.68
-                leaves.append(simple_leaf(x, y, a, 38 * s, 12.5 * s, 0.06 * up))
-                veins.append(vein(x, y, a, 40 * s, 0.06 * up))
-        x, y = p3
+                # upper leaves stand up steeply; lower ones hang a little less steeply
+                a = ang + up * (0.95 if up == -1 else 0.8)
+                leaves.append(simple_leaf(x, y, a, 44 * s, 16 * s, 0.05 * up))
         ang = math.atan2(p3[1] - p2[1], p3[0] - p2[0])
-        leaves.append(simple_leaf(x, y, ang, 40, 12))
-        veins.append(vein(x, y, ang, 40))
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -24 600 124">'
-            f'<path d="{" ".join(stems + leaves)}" fill="{GOLD}"/>'
-            f'<path d="{" ".join(veins)}" fill="{VEIN}" opacity="0.55"/></svg>')
+        leaves.append(simple_leaf(*p3, ang, 42, 15))
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -30 600 150">'
+            f'<path d="{" ".join(stems + leaves)}" fill="{GOLD}"/></svg>')
 
 
-def chain_link():
-    """One diamond and one dot; CSS repeats it to any length."""
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 12"><g fill="{GOLD}">'
-            f'<path d="M1 6 L6 1 L11 6 L6 11Z"/><circle cx="13.5" cy="6" r="1.5"/></g></svg>')
+def chain_link(vertical=False):
+    """One diamond and one bead on a hairline; CSS repeats it to any length."""
+    g = (f'<path d="M0.5 6 H15.5" stroke="{GOLD}" stroke-width="0.8"/>'
+         f'<path d="M1 6 L6 2 L11 6 L6 10Z"/><circle cx="13.5" cy="6" r="1.7"/>')
+    if vertical:
+        return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16"><g fill="{GOLD}" transform="matrix(0 1 1 0 0 0)">{g}</g></svg>'
+    return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 12"><g fill="{GOLD}">{g}</g></svg>'
 
 
 def chain_end():
@@ -114,5 +110,6 @@ if __name__ == "__main__":
     out = Path(sys.argv[1])
     (out / "garland.svg").write_text(garland())
     (out / "chain-link.svg").write_text(chain_link())
+    (out / "chain-link-v.svg").write_text(chain_link(vertical=True))
     (out / "chain-end.svg").write_text(chain_end())
-    print("wrote garland.svg, chain-link.svg, chain-end.svg")
+    print("wrote garland.svg, chain-link.svg, chain-link-v.svg, chain-end.svg")
