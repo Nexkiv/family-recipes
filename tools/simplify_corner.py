@@ -1,9 +1,12 @@
-"""Build the site's corner ornament from the family's sectioned acanthus drawing.
+"""Build the site's corner ornaments from the family's sectioned acanthus drawing.
 
-  python tools/simplify_corner.py tools/source/leaf-page-corner.svg site/assets/ornaments/corner.svg
+  python tools/simplify_corner.py tools/source/leaf-page-corner.svg site/assets/ornaments
 
-Keeps the top arm and the upper part of the side arm, drops the lower side-arm
-sections, and moves the bottom swept leaf up so it finishes the shorter arm.
+Writes two files:
+  corner-tall.svg  the whole drawing (top corners of the card)
+  corner.svg       a shorter version (bottom corners): keeps the top arm and the upper
+                   part of the side arm, drops the lower side-arm sections, and moves the
+                   bottom swept leaf up so it finishes the shorter arm.
 """
 import re
 import sys
@@ -29,8 +32,21 @@ def drop_subpaths(d, starts):
     return " ".join(p for p in parts if not p.startswith(starts))
 
 
-def main(src, dst):
+ALL = KEEP + ["middle-volutes", "middle-leaf-fan", "lower-leaf-scroll", "descending-tendril", END_LEAF]
+
+
+def write(dst, viewbox, note, body):
+    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{viewbox}" fill="{GOLD}">\n'
+           f"  <!-- Acanthus page corner, {note} (top-left; CSS flips it for the other corners).\n"
+           "       Built by tools/simplify_corner.py from the family's drawing of Mother's page. -->\n"
+           + "\n".join(body) + "\n</svg>\n")
+    open(dst, "w").write(svg)
+
+
+def main(src, outdir):
     sec = sections(open(src).read())
+    write(f"{outdir}/corner-tall.svg", "40 40 565 775", "full drawing",
+          [f'  <path id="{name}" d="{sec[name]}"/>' for name in ALL])
     body = []
     for name in KEEP:
         d = sec[name]
@@ -39,11 +55,7 @@ def main(src, dst):
         body.append(f'  <path id="{name}" d="{d}"/>')
     dx, dy = END_LEAF_MOVE
     body.append(f'  <path id="{END_LEAF}" transform="translate({dx} {dy})" d="{sec[END_LEAF]}"/>')
-    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="44 44 556 400" fill="{GOLD}">\n'
-           "  <!-- Acanthus page corner (top-left; CSS flips it for the other corners).\n"
-           "       Simplified by tools/simplify_corner.py from the family's drawing of Mother's page. -->\n"
-           + "\n".join(body) + "\n</svg>\n")
-    open(dst, "w").write(svg)
+    write(f"{outdir}/corner.svg", "44 44 556 400", "short version", body)
 
 
 if __name__ == "__main__":
