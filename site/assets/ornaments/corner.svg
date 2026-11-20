@@ -1,47 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 244 244">
-  <defs>
-    <!-- soft teardrop leaf, base at origin, pointing +x -->
-    <path id="leaf" d="M0 0 C6 -9 22 -13 34 -8 C40 -5 42 -1 40 1 C34 5 18 8 0 0Z"/>
-    <!-- acanthus leaf: rounded scallops along the upper edge, rolled tip -->
-    <path id="acanthus" d="M0 0 C3 -7 10 -11 16 -10 C18 -15 25 -16 28 -12 C31 -16 38 -15 40 -10 C44 -9 47 -5 45 -1 C43 2 39 1 39 -2 C33 3 15 6 0 0Z"/>
-    <g id="arm">
-      <!-- main stem along the top edge -->
-      <path d="M30 64 C30 36 46 22 72 20 C110 17 150 20 190 17" fill="none" stroke-width="3.2"/>
-      <path d="M150 19.5 C165 18.5 178 18 192 17" fill="none" stroke-width="2"/>
-      <!-- swept end leaf -->
-      <path d="M186 17 C198 4 220 -1 239 7 C231 14 214 22 196 21 C191 21 188 19.5 186 17Z" stroke="none"/>
-      <path d="M190 17 C204 12 220 8 234 8" fill="none" stroke="#fff" stroke-width="0.9" opacity="0.6"/>
-      <!-- frond curling under the stem, ending in a bud -->
-      <path d="M100 21 C110 36 103 52 90 50 C79 48 79 34 89 34 C95 34 98 40 94 43" fill="none" stroke-width="2.4"/>
-      <circle cx="93.5" cy="43.5" r="2.4" stroke="none"/>
-      <use href="#leaf" xlink:href="#leaf" transform="translate(107 33) rotate(70) scale(0.55)" stroke="none"/>
-      <use href="#leaf" xlink:href="#leaf" transform="translate(98 49) rotate(130) scale(0.5)" stroke="none"/>
-      <!-- smaller frond further out -->
-      <path d="M152 19 C158 30 153 40 145 39 C138 38 138 30 144 30 C147 30 149 33 147 35" fill="none" stroke-width="1.8"/>
-      <circle cx="146.6" cy="35.4" r="1.9" stroke="none"/>
-      <!-- leaves on the stem -->
-      <use href="#leaf" xlink:href="#leaf" transform="translate(80 20) rotate(-24) scale(0.6)" stroke="none"/>
-      <use href="#acanthus" xlink:href="#acanthus" transform="translate(120 21) rotate(24) scale(0.72)" stroke="none"/>
-      <use href="#leaf" xlink:href="#leaf" transform="translate(128 19) rotate(-20) scale(0.55)" stroke="none"/>
-      <use href="#leaf" xlink:href="#leaf" transform="translate(164 19.5) rotate(24) scale(0.5)" stroke="none"/>
-      <use href="#leaf" xlink:href="#leaf" transform="translate(170 18) rotate(-18) scale(0.45)" stroke="none"/>
-      <!-- small wheat sprig under the end leaf -->
-      <path d="M176 22 C181 28 186 32 192 35" fill="none" stroke-width="1.2"/>
-      <use href="#leaf" xlink:href="#leaf" transform="translate(180 27) rotate(-5) scale(0.28)" stroke="none"/>
-      <use href="#leaf" xlink:href="#leaf" transform="translate(180 27) rotate(80) scale(0.28)" stroke="none"/>
-      <use href="#leaf" xlink:href="#leaf" transform="translate(185 31) rotate(0) scale(0.25)" stroke="none"/>
-      <use href="#leaf" xlink:href="#leaf" transform="translate(185 31) rotate(85) scale(0.25)" stroke="none"/>
-      <use href="#leaf" xlink:href="#leaf" transform="translate(191 34.5) rotate(35) scale(0.3)" stroke="none"/>
-    </g>
-  </defs>
-  <g fill="#B48E67" stroke="#B48E67" stroke-linecap="round">
-    <use href="#arm" xlink:href="#arm"/>
-    <use href="#arm" xlink:href="#arm" transform="matrix(0 1 1 0 0 0)"/>
-    <!-- corner: a rolled volute and one broad leaf pointing into the page -->
-    <path d="M30 64 C30 76 44 80 50 70 C55 61 46 55 41 60" fill="none" stroke-width="2.6"/>
-    <path d="M64 30 C76 30 80 44 70 50 C61 55 55 46 60 41" fill="none" stroke-width="2.6"/>
-    <circle cx="41.5" cy="59.5" r="2.4" stroke="none"/>
-    <circle cx="59.5" cy="41.5" r="2.4" stroke="none"/>
-    <use href="#leaf" xlink:href="#leaf" transform="translate(42 42) rotate(45) scale(1.05)" stroke="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="45 45 555 555">
+  <!-- Gold acanthus corner (top-left; CSS flips it for the other corners).
+       Simplified from the family's first-pass drawing of the scrollwork on Mother's pages.
+       Cut-outs inside the leaves (evenodd) read as veins. -->
+  <g fill="#B48E67" fill-rule="evenodd">
+    <!-- top arm: main acanthus leaf -->
+    <path d="M80 85C85 104 103 119 124 120 136 121 142 111 133 105 128 102 122 106 121 110 116 100 125 87 140 85 157 83 166 94 163 108 161 124 148 134 132 132 153 142 174 143 194 134 187 144 210 144 210 155 210 160 204 167 197 168 221 167 236 151 231 135 227 123 219 118 210 119 219 111 230 117 236 125 231 109 218 102 204 106 191 109 181 121 169 124 181 109 190 96 208 92 229 88 250 101 252 124 255 148 238 170 213 181 246 174 267 155 281 128 285 121 288 114 292 109 292 125 285 134 279 141 295 137 311 124 321 112 320 124 314 130 307 137 327 129 338 115 355 112 371 109 384 120 389 130 377 125 367 126 360 131 382 130 398 144 403 160 391 151 383 151 373 151 371 145 366 143 359 145 350 152 337 158 325 159 305 159 284 167 268 177 291 173 313 169 317 181 324 195 304 201 297 191 307 197 315 189 310 183 304 176 278 183 256 194 228 211 206 218 181 212 151 207 122 187 105 162 91 145 69 111 80 85Z M99 129C127 153 149 165 176 164 157 173 128 158 99 129Z M99 150C134 183 166 194 201 187 166 202 126 183 99 150Z M186 203C226 202 261 176 297 161 315 154 333 153 349 143 334 157 317 159 300 165 259 183 228 209 186 203Z"/>
+    <!-- top arm: swept end leaf -->
+    <path d="M435 65C479 56 521 66 550 89 569 104 582 123 588 144 570 139 550 146 534 142 508 136 497 112 477 100 491 103 506 111 518 117 496 90 464 74 435 65Z M454 68C483 71 512 85 531 105 504 88 480 76 454 68Z"/>
+    <!-- top arm: wheat sprig -->
+    <path d="M459 119C469 115 482 121 488 130 478 131 472 125 466 125L464 141C459 137 458 128 459 119Z M475 134C486 131 497 138 501 147 493 147 486 143 481 140 484 149 483 155 480 158 474 151 473 143 475 134Z M488 151C499 150 509 158 513 168 504 167 499 161 494 159 497 169 493 175 490 178 485 169 485 160 488 151Z"/>
+    <!-- corner: the leaf that turns the corner -->
+    <path d="M98 145C108 153 118 160 121 177L111 169C119 195 136 204 145 213 134 213 124 206 119 202 125 223 142 232 158 236 149 244 134 242 124 234 130 248 146 256 155 250 162 264 151 276 137 276 123 275 116 267 118 258 126 270 138 269 141 263 124 259 111 246 105 231 107 254 118 272 114 286L102 303 97 289C91 299 84 303 75 299L86 277 73 282 83 263C75 265 68 262 65 257 81 252 89 242 92 234 81 238 73 234 69 228 88 224 91 207 92 194 93 176 88 158 98 145Z M100 167C101 192 108 215 127 228 105 218 97 200 100 167Z M100 228C99 253 94 270 85 285 98 275 104 253 100 228Z"/>
+    <!-- side arm: descending acanthus leaf -->
+    <path d="M89 307C91 325 95 337 108 345L96 348C94 355 103 363 110 367L98 366C100 386 115 402 129 410 113 409 102 399 94 388 99 413 118 425 142 430 164 436 183 431 197 417 189 438 168 448 145 444 126 442 109 431 98 420 102 442 96 455 89 467L86 455 66 470C73 455 81 450 81 435 75 444 68 447 62 447 77 426 79 407 79 389 78 359 79 330 89 307Z M87 366C84 405 105 432 137 439 112 430 91 410 87 366Z"/>
+    <!-- side arm: swept end leaf (moved up to finish the shorter arm) -->
+    <path transform="translate(18 -214)" d="M64 670C55 700 66 728 89 744 106 756 127 759 125 778 124 784 121 790 121 797 99 790 75 780 62 759 48 738 48 711 55 688 55 715 66 734 83 746 63 724 57 701 64 670Z M55 710C59 742 79 763 104 777 77 765 59 744 55 710Z"/>
+  </g>
+  <g fill="none" stroke="#B48E67" stroke-linecap="round">
+    <!-- curls -->
+    <path stroke-width="4.5" d="M258 159C294 112 337 79 394 81 425 81 447 96 450 119 454 142 444 156 430 154 419 153 414 144 421 136"/>
+    <path stroke-width="4" d="M187 207C225 190 284 192 313 221 332 240 328 268 310 282 293 295 271 290 265 279 256 263 267 246 278 247 292 248 294 263 284 267 276 271 269 263 276 258"/>
+    <path stroke-width="4.5" d="M89 294C82 325 80 361 94 386 111 415 151 437 183 430 213 422 226 387 206 363 190 341 165 345 155 362 147 375 152 391 164 394 171 396 177 388 173 383 170 379 165 380 164 385"/>
+    <!-- wheat stem -->
+    <path stroke-width="2.3" d="M457 117C474 125 487 143 497 165"/>
   </g>
 </svg>

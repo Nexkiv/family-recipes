@@ -50,7 +50,7 @@
     .card::before, .card::after { content: ""; position: absolute; pointer-events: none; border: 1px solid var(--gold); border-radius: 10px; }
     .card::before { inset: 12px; }
     .card::after { inset: 17px; opacity: 0.45; border-radius: 7px; }
-    .card { --corner: clamp(84px, 18vw, 150px); }
+    .card { --corner: clamp(84px, 19vw, 170px); }
     .corner { position: absolute; width: var(--corner); pointer-events: none; }
     .c-tl { top: 22px; left: 22px; }
     .c-tr { top: 22px; right: 22px; transform: scaleX(-1); }
@@ -82,7 +82,7 @@
     .typed[hidden], .original[hidden] { display: none; }
     h2 { margin: 0 0 0.75rem; font-size: 1.15rem; font-weight: 700; color: var(--aegean); }
     .photo { margin: 0; }
-    .photo img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; }
+    .photo img { width: min(100%, 19rem); margin: 0 auto; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; }
     .ingredients ul { margin: 0; padding-left: 1.1rem; }
     .ingredients li { padding: 0.2rem 0; }
     .ingredients li::marker { color: var(--gold); }
@@ -118,7 +118,7 @@
 
     @media (min-width: 700px) {
       .typed { grid-template-columns: 1fr 15rem; grid-template-areas: "ing photo" "method method" "divider divider" "mom mom"; column-gap: 2.75rem; }
-      .photo img { aspect-ratio: 3 / 4; }
+      .photo img { width: 100%; }
       .ingredients { grid-area: ing; }
       .photo { grid-area: photo; }
       .method { grid-area: method; }
