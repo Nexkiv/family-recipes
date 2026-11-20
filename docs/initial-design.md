@@ -4,7 +4,7 @@ A website for my mother's handwritten recipe binder. Each recipe gets a typed pa
 
 | Mother's page | Typed recipe card | On a phone |
 |---|---|---|
-| ![Mother's handwritten tzatziki page](images/original-page.jpg) | ![Typed tzatziki recipe card](images/recipe-card.jpg) | ![Recipe card on a phone](images/recipe-card-mobile.jpg) |
+| ![Mother's handwritten tzatziki page](images/original-page.jpg) | ![Typed tzatziki recipe card](images/recipe-card.jpg) | ![Recipe card on a phone](images/recipe-card-phone.jpg) |
 
 Live: **https://nexkiv.github.io/family-recipes/** · Design prototypes: https://nexkiv.github.io/family-recipes/prototypes/
 
@@ -19,7 +19,7 @@ Live: **https://nexkiv.github.io/family-recipes/** · Design prototypes: https:/
 
 ## ERD
 
-![ERD](images/erd.png)
+![ERD](images/erd-v2.png)
 
 | Decision | Why |
 |---|---|
@@ -32,7 +32,7 @@ Live: **https://nexkiv.github.io/family-recipes/** · Design prototypes: https:/
 
 ## System design
 
-![System design](images/system-design.png)
+![System design](images/system-design-v2.png)
 
 | Piece | Choice | Why / alternative | Cost |
 |---|---|---|---|
