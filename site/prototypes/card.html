@@ -44,23 +44,18 @@
     .tabs a[aria-current="page"] { background: var(--aegean); color: #fff; padding-block: 0.7rem 0.55rem; box-shadow: none; }
     .tabs a:focus-visible { outline-offset: -3px; }
 
-    /* Phones: binder tabs become a swipeable row of section buttons above the card */
+    /* Phones: the same binder tabs, a little smaller, swiping sideways and fading out at the edges */
     @media (max-width: 640px) {
       .tabs {
-        align-items: center; gap: 0.5rem; padding: 0 1rem 0 0; margin: 0 -1rem 1rem 0;
-        scroll-snap-type: x proximity; scroll-padding-inline: 0 1rem;
-        -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent);
-        mask-image: linear-gradient(90deg, #000 85%, transparent);
+        gap: 3px; padding: 0 1.25rem; margin: 0 -1rem; scroll-snap-type: x proximity; scroll-padding-inline: 1.25rem;
+        -webkit-mask-image: linear-gradient(90deg, transparent, #000 1.25rem, #000 calc(100% - 1.75rem), transparent);
+        mask-image: linear-gradient(90deg, transparent, #000 1.25rem, #000 calc(100% - 1.75rem), transparent);
       }
-      .tabs li { scroll-snap-align: start; }
-      .tabs li:last-child { padding-right: 2.5rem; }
-      .tabs a, .tabs a[aria-current="page"] {
-        padding: 0.55rem 1rem; border-radius: 999px; box-shadow: none;
-        background: #fff; border: 1px solid #cfd7e6;
-      }
+      .tabs li { scroll-snap-align: center; }
+      .tabs a { font-size: 0.82rem; padding: 0.45rem 0.75rem 0.4rem; }
+      .tabs a[aria-current="page"] { padding-block: 0.6rem 0.5rem; }
       .tabs a:hover { transform: none; }
-      .tabs a[aria-current="page"] { background: var(--aegean); border-color: var(--aegean); }
-      .card { border-radius: 18px; }
+      .card { border-radius: 14px; }
     }
 
     /* ---------- The card ---------- */
