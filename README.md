@@ -1,6 +1,6 @@
 # Karatassos Family Recipes
 
-Mom's handwritten recipe binder as a website: typed recipes you can search, plus her original pages to see or print.
+Mother's handwritten recipe binder as a website: typed recipes you can search, plus her original pages to see or print.
 
 **Live:** https://nexkiv.github.io/family-recipes/ · **Design prototypes:** https://nexkiv.github.io/family-recipes/prototypes/
 
