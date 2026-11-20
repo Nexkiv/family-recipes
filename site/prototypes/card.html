@@ -57,44 +57,9 @@
     .c-bl { bottom: 22px; left: 22px; transform: scaleY(-1); }
     .c-br { bottom: 22px; right: 22px; transform: scale(-1); }
 
-    .head { text-align: center; padding-top: clamp(1.75rem, 5vw, 2.75rem); }
-    /* Top of the page, as on Mother's: diamond chains run from the corner vines in to a leaf garland */
-    .crown { position: absolute; top: 30px; left: calc(22px + var(--corner) + 6px); right: calc(22px + var(--corner) + 6px); display: flex; align-items: flex-start; gap: 8px; pointer-events: none; }
-    .crown .link { flex: 1; min-width: 0; height: 12px; margin-top: 2px; background: url(../assets/ornaments/chain-link.svg) right center / 16px 12px; background-repeat: round no-repeat; }
-    .crown .link:last-child { background-position: left center; }
-    .crown .cap { flex: none; width: 12px; height: 12px; margin-top: 2px; }
-    .crown .garland { flex: none; width: clamp(140px, 34vw, 300px); margin-top: 4px; }
-    @media (max-width: 520px) { .crown .link, .crown .cap { display: none; } .crown { justify-content: center; } }
-
-    /* Diamond chains down both sides and across the bottom, between the corners */
-    .chain-v, .chain-h { position: absolute; pointer-events: none; }
-    .chain-v {
-      width: 12px;
-      top: calc(22px + var(--corner) * 1.372 + 12px);
-      bottom: calc(22px + var(--corner) * 0.72 + 12px);
-      background: url(../assets/ornaments/chain-end.svg) top center / 12px 12px no-repeat,
-                  url(../assets/ornaments/chain-end.svg) bottom center / 12px 12px no-repeat,
-                  url(../assets/ornaments/chain-link-v.svg) center top / 12px 16px repeat-y;
-      /* links fill only the space between the two end diamonds */
-      padding: 14px 0;
-      background-origin: border-box, border-box, content-box;
-      background-clip: border-box, border-box, content-box;
-    }
-    .chain-v.left { left: 26px; }
-    .chain-v.right { right: 26px; }
-    .chain-h {
-      height: 12px;
-      bottom: 32px;
-      left: calc(22px + var(--corner) + 10px);
-      right: calc(22px + var(--corner) + 10px);
-      background: url(../assets/ornaments/chain-end.svg) left center / 12px 12px no-repeat,
-                  url(../assets/ornaments/chain-end.svg) right center / 12px 12px no-repeat,
-                  url(../assets/ornaments/chain-link.svg) left center / 16px 12px repeat-x;
-      padding: 0 14px;
-      background-origin: border-box, border-box, content-box;
-      background-clip: border-box, border-box, content-box;
-    }
-    @media (max-width: 699px) { .chain-v { display: none; } }
+    .head { text-align: center; padding-top: clamp(2.5rem, 8vw, 4.25rem); }
+    /* Laurel garland at the top center, as on Mother's page */
+    .garland { position: absolute; top: 26px; left: 50%; translate: -50% 0; width: clamp(150px, 38vw, 330px); pointer-events: none; }
     h1 { margin: 0; font-size: clamp(2.4rem, 7vw, 3.4rem); line-height: 1.1; font-weight: 600; color: var(--aegean); letter-spacing: -0.02em; }
     .subtitle { margin: 0.35rem 0 0; color: var(--muted); }
     .times { display: flex; justify-content: center; gap: 1.5rem; margin: 1rem 0 0; font-size: 0.95rem; }
@@ -124,7 +89,9 @@
     .method li::marker { font-weight: 700; color: var(--gold-ink); }
     .method p { margin: 0; }
 
-    .divider { display: block; width: 110px; margin: 0 auto; }
+    /* Divider before Mother's notes: a fine gold rule with a small diamond, echoing the seal */
+    .divider { position: relative; width: min(100%, 22rem); height: 12px; margin: 0.25rem auto; background: linear-gradient(90deg, transparent, var(--gold) 25%, var(--gold) 75%, transparent) center / 100% 1px no-repeat; }
+    .divider::after { content: ""; position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; translate: -50% -50%; rotate: 45deg; background: #fff; border: 1px solid var(--gold); box-shadow: 0 0 0 4px #fff; }
     .mom h2 { margin-bottom: 0.5rem; }
     .mom p { margin: 0; max-width: 38em; }
     .mom p + p { margin-top: 0.4rem; }
@@ -200,16 +167,7 @@
       <img class="corner c-tr" src="../assets/ornaments/corner-tall.svg" alt="">
       <img class="corner c-bl" src="../assets/ornaments/corner.svg" alt="">
       <img class="corner c-br" src="../assets/ornaments/corner.svg" alt="">
-      <span class="chain-v left" aria-hidden="true"></span>
-      <span class="chain-v right" aria-hidden="true"></span>
-      <span class="chain-h" aria-hidden="true"></span>
-      <div class="crown" aria-hidden="true">
-        <span class="link"></span>
-        <img class="cap" src="../assets/ornaments/chain-end.svg" alt="">
-        <img class="garland" src="../assets/ornaments/garland.svg" alt="">
-        <img class="cap" src="../assets/ornaments/chain-end.svg" alt="">
-        <span class="link"></span>
-      </div>
+      <img class="garland" src="../assets/ornaments/garland.svg?v=2" alt="">
 
       <header class="head">
         <h1 data-field="title"></h1>
@@ -225,7 +183,7 @@
         <figure class="photo" data-field="keyPhoto"></figure>
         <section class="ingredients"><h2>Ingredients</h2><div data-field="ingredients"></div></section>
         <section class="method"><h2>Method</h2><ol data-field="steps"></ol></section>
-        <img class="divider" src="../assets/ornaments/garland.svg" alt="">
+        <div class="divider" aria-hidden="true"></div>
         <section class="mom"><h2>From <span data-mother>Mother</span></h2><div data-field="notes"></div></section>
       </div>
 

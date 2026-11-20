@@ -11,6 +11,7 @@ CS 452 (BYU, Fall 2026) final project. [Initial design](docs/initial-design.md) 
 | `site/` | Static site deployed to GitHub Pages (`recipe.html?r=<slug>`; one JSON file per recipe for now) |
 | `site/prototypes/` | Three design directions on the same data |
 | `tools/prepare_image.py` | Rotates, optionally flattens a phone photo of a page, resizes, and strips metadata (incl. GPS) |
+| `tools/simplify_corner.py` | Builds the card's corner ornaments from the family's drawing in `tools/source/` |
 | `docs/` | Design doc, diagrams, log |
 
 ## Run locally
