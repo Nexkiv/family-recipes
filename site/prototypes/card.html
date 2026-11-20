@@ -36,13 +36,32 @@
     .tabs a {
       display: block; white-space: nowrap;
       padding: 0.5rem 0.95rem 0.45rem; border-radius: 10px 10px 0 0;
-      font-size: 0.88rem; font-weight: 600; color: var(--ink); text-decoration: none;
-      background: var(--tab); box-shadow: inset 0 -6px 8px -6px rgba(14, 42, 94, 0.18);
-      transition: transform 0.15s;
+      font-size: 0.88rem; font-weight: 600; color: var(--aegean); text-decoration: none;
+      background: #d3dbea; box-shadow: inset 0 -6px 8px -6px rgba(14, 42, 94, 0.22);
+      transition: transform 0.15s, background-color 0.15s;
     }
-    .tabs a:hover { transform: translateY(-2px); }
+    .tabs a:hover { transform: translateY(-2px); background: #c4cfe3; }
     .tabs a[aria-current="page"] { background: var(--aegean); color: #fff; padding-block: 0.7rem 0.55rem; box-shadow: none; }
     .tabs a:focus-visible { outline-offset: -3px; }
+
+    /* Phones: binder tabs become a swipeable row of section buttons above the card */
+    @media (max-width: 640px) {
+      .tabs {
+        align-items: center; gap: 0.5rem; padding: 0 1rem 0 0; margin: 0 -1rem 1rem 0;
+        scroll-snap-type: x proximity; scroll-padding-inline: 0 1rem;
+        -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent);
+        mask-image: linear-gradient(90deg, #000 85%, transparent);
+      }
+      .tabs li { scroll-snap-align: start; }
+      .tabs li:last-child { padding-right: 2.5rem; }
+      .tabs a, .tabs a[aria-current="page"] {
+        padding: 0.55rem 1rem; border-radius: 999px; box-shadow: none;
+        background: #fff; border: 1px solid #cfd7e6;
+      }
+      .tabs a:hover { transform: none; }
+      .tabs a[aria-current="page"] { background: var(--aegean); border-color: var(--aegean); }
+      .card { border-radius: 18px; }
+    }
 
     /* ---------- The card ---------- */
     .card { position: relative; background: #fff; border-radius: 4px 18px 18px 18px; padding: clamp(2.25rem, 7vw, 4rem) clamp(2.25rem, 7vw, 4rem) clamp(4.5rem, 12vw, 7rem); box-shadow: 0 1px 2px rgba(14, 42, 94, 0.08), 0 14px 36px rgba(14, 42, 94, 0.1); }
@@ -152,13 +171,13 @@
   <main>
     <nav aria-label="Binder sections">
       <ul class="tabs no-print" id="tabs">
-        <li><a href="#" style="--tab:#e8d5d0">Appetizers</a></li>
-        <li><a href="#" style="--tab:#d4e1cf">Soups &amp; Salads</a></li>
-        <li><a href="#" style="--tab:#cfdceb">Main Dishes</a></li>
-        <li><a href="#" style="--tab:#ede2c6">Breads &amp; Rolls</a></li>
-        <li><a href="#" style="--tab:#cbe1dc">Sauces &amp; Dips</a></li>
-        <li><a href="#" style="--tab:#e2d8ea">Desserts</a></li>
-        <li><a href="#" style="--tab:#f0e6be">Beverages</a></li>
+        <li><a href="#">Appetizers</a></li>
+        <li><a href="#">Soups &amp; Salads</a></li>
+        <li><a href="#">Main Dishes</a></li>
+        <li><a href="#">Breads &amp; Rolls</a></li>
+        <li><a href="#">Sauces &amp; Dips</a></li>
+        <li><a href="#">Desserts</a></li>
+        <li><a href="#">Beverages</a></li>
       </ul>
     </nav>
 
@@ -184,7 +203,7 @@
         <section class="ingredients"><h2>Ingredients</h2><div data-field="ingredients"></div></section>
         <section class="method"><h2>Method</h2><ol data-field="steps"></ol></section>
         <div class="divider" aria-hidden="true"></div>
-        <section class="mom"><h2>From <span data-mother>Mother</span></h2><div data-field="notes"></div></section>
+        <section class="mom"><h2><span data-mother>Mother</span>'s Notes</h2><div data-field="notes"></div></section>
       </div>
 
       <div class="original" id="original" hidden>
@@ -216,7 +235,10 @@
     const active = [...document.querySelectorAll("#tabs a")].find((a) => a.textContent === recipe.category);
     if (active) {
       active.setAttribute("aria-current", "page");
-      active.scrollIntoView({ block: "nearest", inline: "center" });
+      // bring the current section into view in the tab row, without scrolling the page
+      const row = document.getElementById("tabs");
+      const a = active.getBoundingClientRect(), r = row.getBoundingClientRect();
+      row.scrollLeft += a.left - r.left - (r.width - a.width) / 2;
     }
 
     const views = { typed: document.getElementById("typed"), original: document.getElementById("original") };
