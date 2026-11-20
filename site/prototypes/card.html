@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prototype B: Recipe card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Commissioner is by Greek type designer Kostas Bartsokas -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="base.css">
+  <style>
+    body { font: 1.0625rem/1.6 "Commissioner", system-ui, sans-serif; background: #e9edf4; }
+    .site { text-align: center; padding: 2rem 1rem 0; }
+    .site a { color: var(--aegean); font-weight: 700; font-size: 1.05rem; text-decoration: none; letter-spacing: 0.01em; }
+    main { width: min(100% - 2rem, 52rem); margin: 3rem auto 4rem; }
+
+    /* the page, with the binder's divider tab on top */
+    .card { position: relative; background: #fff; border-radius: 18px; padding: clamp(1.75rem, 6vw, 3.5rem); box-shadow: 0 1px 2px rgba(14, 42, 94, 0.08), 0 12px 32px rgba(14, 42, 94, 0.08); }
+    .card::before { content: ""; position: absolute; inset: 10px; border: 1px solid var(--gold); border-radius: 12px; pointer-events: none; opacity: 0.6; }
+    .tab { position: absolute; top: -2.1rem; right: 2.5rem; margin: 0; padding: 0.45rem 1.1rem 0.9rem; border-radius: 10px 10px 0 0; background: var(--aegean); color: #fff; font-size: 0.9rem; font-weight: 600; z-index: -1; }
+
+    .head { text-align: center; }
+    .mark { width: 72px; margin: 0 auto 0.75rem; }
+    h1 { margin: 0; font-size: clamp(2.4rem, 7vw, 3.4rem); line-height: 1.1; font-weight: 600; color: var(--aegean); letter-spacing: -0.02em; }
+    .subtitle { margin: 0.35rem 0 0; color: var(--muted); }
+    .times { display: flex; justify-content: center; gap: 1.5rem; margin: 1rem 0 0; font-size: 0.95rem; }
+    .time { display: flex; gap: 0.35rem; }
+    .times dt { color: var(--muted); }
+    .times dt::after { content: ":"; }
+    .times dd { margin: 0; font-weight: 600; }
+
+    /* Typed / Original switch */
+    .view-switch { display: inline-flex; margin: 1.5rem auto 0; padding: 4px; border-radius: 999px; background: #eef1f6; }
+    .view-switch button { font: 600 0.95rem/1 "Commissioner", sans-serif; border: 0; padding: 0.6rem 1.1rem; border-radius: 999px; background: none; color: var(--aegean); cursor: pointer; }
+    .view-switch button[aria-pressed="true"] { background: var(--aegean); color: #fff; }
+
+    .typed { display: grid; gap: 2rem; margin-top: 2.5rem; }
+    .typed[hidden], .original[hidden] { display: none; }
+    h2 { margin: 0 0 0.75rem; font-size: 1.15rem; font-weight: 700; color: var(--aegean); }
+    .photo img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; }
+    .ingredients ul { margin: 0; padding-left: 1.1rem; }
+    .ingredients li { padding: 0.2rem 0; }
+    .ingredients li::marker { color: var(--gold); }
+    .qty { font-weight: 600; }
+    .note { color: var(--gold-ink); }
+    .method ol { margin: 0; padding-left: 1.4rem; }
+    .method li { padding-left: 0.4rem; }
+    .method li + li { margin-top: 0.75rem; }
+    .method li::marker { font-weight: 700; color: var(--gold-ink); }
+    .method p { margin: 0; }
+    .mom { background: #f5f7fb; border-radius: 12px; padding: 1.25rem 1.5rem; }
+    .mom p { margin: 0; }
+    .mom p + p { margin-top: 0.5rem; }
+
+    .original { margin-top: 2rem; text-align: center; }
+    .original img { margin: 0 auto 1rem; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.12); }
+    .btn { font: 600 1rem/1 "Commissioner", sans-serif; padding: 0.8rem 1.3rem; border-radius: 999px; border: 0; background: var(--aegean); color: #fff; cursor: pointer; }
+
+    .tags { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; padding: 0; margin: 2rem 0 0; }
+    .tags a { display: block; padding: 0.3rem 0.8rem; border-radius: 999px; background: #eef1f6; color: var(--aegean); font-size: 0.9rem; text-decoration: none; }
+
+    .photos { margin-top: 2.5rem; }
+    .photos h2 { font-size: 1.3rem; }
+    .gallery { list-style: none; padding: 0; margin: 0 0 1rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr)); gap: 0.75rem; }
+    .gallery .empty { color: var(--muted); grid-column: 1 / -1; }
+    .dropzone { display: block; padding: 1.5rem; border-radius: 14px; background: #fff; border: 2px dashed #c4cbdb; text-align: center; font-weight: 600; color: var(--aegean); cursor: pointer; }
+    .dropzone:hover, .dropzone.dragging { border-color: var(--aegean); }
+    .dropzone small { display: block; font-weight: 400; color: var(--muted); }
+
+    @media (min-width: 700px) {
+      .typed { grid-template-columns: 1fr 15rem; grid-template-areas: "ing photo" "method method" "mom mom"; column-gap: 2.5rem; }
+      .ingredients { grid-area: ing; }
+      .photo { grid-area: photo; }
+      .method { grid-area: method; }
+      .mom { grid-area: mom; }
+    }
+    @media (max-width: 699px) { .tab { right: 1.25rem; } }
+    @media print { body { background: #fff; } .card { box-shadow: none; } .card::before { display: none; } }
+  </style>
+</head>
+<body>
+  <header class="site no-print"><a href="index.html">Karatassos Family Recipes</a></header>
+  <main>
+    <article class="card">
+      <p class="tab" data-field="category"></p>
+      <header class="head">
+        <img class="mark" src="../assets/ornaments/laurel.svg" alt="">
+        <h1 data-field="title"></h1>
+        <p class="subtitle" data-field="subtitle"></p>
+        <dl class="times" data-field="times"></dl>
+        <div class="view-switch no-print" role="group" aria-label="Show the recipe as">
+          <button aria-pressed="true" data-view="typed">Typed</button>
+          <button aria-pressed="false" data-view="original">Mom's original</button>
+        </div>
+      </header>
+
+      <div class="typed" id="typed">
+        <figure class="photo" data-field="keyPhoto" style="margin:0"></figure>
+        <section class="ingredients"><h2>Ingredients</h2><div data-field="ingredients"></div></section>
+        <section class="method"><h2>Method</h2><ol data-field="steps"></ol></section>
+        <section class="mom"><h2>From Mom</h2><div data-field="notes"></div></section>
+      </div>
+
+      <div class="original" id="original" hidden>
+        <div data-field="scans"></div>
+        <button class="btn no-print" data-action="print-original">Print Mom's original</button>
+      </div>
+
+      <ul class="tags no-print" data-field="tags" aria-label="Tags"></ul>
+    </article>
+
+    <section class="photos no-print" aria-labelledby="photos-h">
+      <h2 id="photos-h">Family photos</h2>
+      <ul class="gallery" data-field="photos"></ul>
+      <label class="dropzone" id="dropzone">
+        <input type="file" id="photo-input" accept="image/jpeg,image/png,image/webp,image/heic" multiple>
+        Add a photo of yours<small>JPEG, PNG, WebP or HEIC, up to 15 MB</small>
+      </label>
+      <ul class="upload-queue" id="upload-queue" aria-live="polite"></ul>
+    </section>
+  </main>
+
+  <dialog class="original-dialog" id="original-dialog"><form method="dialog"><h2>Mom's original page</h2><button>Close</button></form><div class="pages"></div></dialog>
+  <div class="print-original" data-field="printScans" aria-hidden="true"></div>
+
+  <script type="module">
+    import { renderRecipe } from "./shared.js";
+    renderRecipe();
+    const views = { typed: document.getElementById("typed"), original: document.getElementById("original") };
+    document.querySelectorAll("[data-view]").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("[data-view]").forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+        for (const [name, el] of Object.entries(views)) el.hidden = name !== btn.dataset.view;
+      })
+    );
+  </script>
+  <script src="../js/upload.js" defer></script>
+</body>
+</html>

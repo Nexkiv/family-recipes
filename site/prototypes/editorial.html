@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prototype A: Editorial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- GFS Didot is from the Greek Font Society -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+  <link rel="stylesheet" href="base.css">
+  <style>
+    body { font: 1.125rem/1.65 "Source Serif 4", Georgia, serif; background: #fdfcfa; }
+    .wrap { width: min(100% - 2.5rem, 72rem); margin: 0 auto; }
+
+    .site { border-bottom: 1px solid var(--aegean); }
+    .site .wrap { display: flex; align-items: baseline; justify-content: space-between; padding: 1.1rem 0 0.9rem; }
+    .site-name { font: 1.5rem/1 "GFS Didot", serif; color: var(--aegean); text-decoration: none; }
+    .site-note { font-size: 0.95rem; color: var(--muted); }
+
+    .hero { display: grid; gap: 2rem; padding: 2.5rem 0 3rem; border-bottom: 1px solid var(--line); }
+    .category { margin: 0 0 0.5rem; color: var(--gold-ink); font-weight: 600; }
+    h1 { margin: 0; font: 400 clamp(3.4rem, 10vw, 6.5rem)/0.95 "GFS Didot", serif; color: var(--aegean); letter-spacing: -0.01em; }
+    .subtitle { margin: 0.75rem 0 0; font-style: italic; font-size: 1.35rem; color: var(--muted); }
+    .byline { margin: 1.5rem 0 0; }
+    .times { display: flex; gap: 2rem; margin: 1.5rem 0 0; padding: 1rem 0; border-block: 1px solid var(--line); }
+    .times dt { font-size: 0.9rem; color: var(--muted); }
+    .times dd { margin: 0; font-weight: 600; }
+    .tags { list-style: none; padding: 0; margin: 1rem 0 0; display: flex; flex-wrap: wrap; gap: 0.25rem 0.9rem; font-size: 0.95rem; }
+    .tags a { color: var(--royal); text-underline-offset: 3px; text-decoration-color: rgba(20, 52, 122, 0.3); }
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; margin-top: 1.75rem; }
+    .btn { font: 600 1rem/1 "Source Serif 4", serif; padding: 0.85rem 1.3rem; border: 0; border-radius: 3px; background: var(--aegean); color: #fff; cursor: pointer; }
+    .btn:hover { background: var(--royal); }
+    .link-btn { font: inherit; background: none; border: 0; padding: 0; color: var(--royal); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+    .hero figure { margin: 0; }
+    .hero img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+
+    .body { display: grid; gap: 2.5rem; padding: 3rem 0; }
+    h2 { margin: 0 0 1rem; font: 400 2rem/1.1 "GFS Didot", serif; color: var(--aegean); }
+    .ingredients ul { list-style: none; margin: 0; padding: 0; }
+    .ingredients li { padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
+    .qty { font-weight: 600; }
+    .note { font-style: italic; color: var(--gold-ink); }
+    .method ol { list-style: none; margin: 0; padding: 0; }
+    .method li + li { margin-top: 1.5rem; }
+    .step-label { display: block; font-weight: 600; font-size: 0.95rem; color: var(--gold-ink); }
+    .method p { margin: 0.2rem 0 0; max-width: 38em; }
+
+    .mom { margin: 0 0 3rem; padding: 2rem 0; border-block: 1px solid var(--aegean); display: grid; gap: 1.5rem; }
+    .mom blockquote { margin: 0; font: italic 1.45rem/1.5 "Source Serif 4", serif; color: var(--aegean); }
+    .mom blockquote p { margin: 0 0 0.6rem; max-width: 34em; }
+    .mom cite { font-style: normal; font-size: 1rem; color: var(--muted); }
+    .original { display: flex; gap: 1.25rem; align-items: center; }
+    .original button { padding: 0; border: 1px solid var(--line); background: #fff; cursor: zoom-in; flex: none; }
+    .original img { width: 110px; }
+    .original p { margin: 0 0 0.6rem; }
+
+    .photos { padding-bottom: 4rem; }
+    .gallery { list-style: none; margin: 0 0 1.25rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: 0.75rem; }
+    .gallery .empty { color: var(--muted); font-style: italic; grid-column: 1 / -1; }
+    .dropzone { display: block; padding: 1.5rem; border: 1px dashed var(--muted); text-align: center; cursor: pointer; }
+    .dropzone:hover, .dropzone.dragging { border-color: var(--aegean); background: #f3f5f9; }
+    .dropzone small { display: block; color: var(--muted); }
+
+    @media (min-width: 760px) {
+      .hero { grid-template-columns: 1.15fr 1fr; gap: 3.5rem; align-items: end; }
+      .body { grid-template-columns: 1fr 1.8fr; gap: 4rem; }
+      .ingredients > div { position: sticky; top: 1.5rem; }
+      .mom { grid-template-columns: 1fr auto; align-items: center; }
+    }
+    @media print { .hero img { max-height: 3.5in; width: auto; } }
+  </style>
+</head>
+<body>
+  <header class="site no-print">
+    <div class="wrap">
+      <a class="site-name" href="index.html">Karatassos Family Recipes</a>
+      <span class="site-note">Mom's recipes, typed up</span>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <p class="category" data-field="category"></p>
+        <h1 data-field="title"></h1>
+        <p class="subtitle" data-field="subtitle"></p>
+        <dl class="times" data-field="times"></dl>
+        <ul class="tags" data-field="tags" aria-label="Tags"></ul>
+        <div class="actions no-print">
+          <button class="btn" data-action="print-original">Print Mom's original</button>
+          <button class="link-btn" data-action="view-original">See the original page</button>
+        </div>
+      </div>
+      <figure data-field="keyPhoto"></figure>
+    </section>
+
+    <section class="body">
+      <div class="ingredients"><div><h2>Ingredients</h2><div data-field="ingredients"></div></div></div>
+      <div class="method"><h2>Method</h2><ol data-field="steps"></ol></div>
+    </section>
+
+    <section class="mom">
+      <blockquote><div data-field="notes"></div><cite>Mom, on the original page</cite></blockquote>
+      <div class="original no-print">
+        <button data-action="view-original" aria-label="See the original page" data-field="thumb"></button>
+      </div>
+    </section>
+
+    <section class="photos no-print" aria-labelledby="photos-h">
+      <h2 id="photos-h">Family photos</h2>
+      <ul class="gallery" data-field="photos"></ul>
+      <label class="dropzone" id="dropzone">
+        <input type="file" id="photo-input" accept="image/jpeg,image/png,image/webp,image/heic" multiple>
+        Add a photo of yours<small>JPEG, PNG, WebP or HEIC, up to 15 MB</small>
+      </label>
+      <ul class="upload-queue" id="upload-queue" aria-live="polite"></ul>
+    </section>
+  </main>
+
+  <dialog class="original-dialog" id="original-dialog" aria-labelledby="od-h">
+    <form method="dialog"><h2 id="od-h">Mom's original page</h2><button class="link-btn">Close</button></form>
+    <div class="pages" data-field="scans"></div>
+  </dialog>
+  <div class="print-original" data-field="printScans" aria-hidden="true"></div>
+
+  <script type="module">
+    import { renderRecipe } from "./shared.js";
+    renderRecipe({ stepLabel: (n) => `Step ${n}` });
+  </script>
+  <script src="../js/upload.js" defer></script>
+</body>
+</html>

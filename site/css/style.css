@@ -1,0 +1,399 @@
+/* Karatassos Family Recipes
+   The site is the binder: a deep Greek-blue linen cover, and each recipe is one
+   of Mom's gold-framed, lined pages sitting on it. */
+
+:root {
+  /* Palette (contrast ratios checked; see docs/initial-design.md) */
+  --aegean: #0e2a5e;      /* binder cover, deep Greek blue */
+  --royal: #14347a;       /* buttons, links and Mom's asides on paper */
+  --gold-leaf: #b48e67;   /* ornaments, measured from Mom's printed pages */
+  --gold-foil: #d9bc86;   /* gold text on the blue cover */
+  --gold-ink: #8a6430;    /* small gold text on paper */
+  --paper: #fbf8f1;
+  --ink: #1b2440;         /* typed text, blue-black */
+  --rule: rgba(20, 52, 122, 0.13);  /* hairlines, e.g. under the dialog bar */
+  --tab: #a8cfc6;         /* sea-glass binder divider */
+
+  --serif: "Alegreya", Georgia, serif;
+  --script: "Pinyon Script", "Snell Roundhand", cursive;
+
+  --line: 2rem;           /* body line height; vertical spacing uses multiples of it */
+  --sheet-pad: clamp(2rem, 6vw, 4.5rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--serif);
+  font-size: 1.1875rem;
+  line-height: var(--line);
+  color: var(--ink);
+  background-color: var(--aegean);
+  /* faint linen weave on the cover */
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.07), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.06) 0 1px, transparent 1px 4px);
+}
+
+img { max-width: 100%; display: block; }
+
+:focus-visible { outline: 3px solid var(--royal); outline-offset: 3px; border-radius: 4px; }
+.masthead :focus-visible, .sleeve :focus-visible { outline-color: var(--gold-foil); }
+
+/* ---------- Masthead: gold-foil title like the binder cover ---------- */
+
+.masthead {
+  text-align: center;
+  padding: 2.25rem 1rem 1.75rem;
+}
+.masthead-title {
+  margin: 0;
+  font-family: var(--script);
+  font-size: clamp(2.4rem, 7vw, 3.6rem);
+  line-height: 1.2;
+  color: var(--gold-foil);
+  background: linear-gradient(180deg, #ecd6a6 0%, #d2b07a 55%, #b8925c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+main {
+  width: min(100% - 2rem, 54rem);
+  margin: 0 auto 4rem;
+}
+
+/* ---------- The page ---------- */
+
+.sheet {
+  position: relative;
+  background: var(--paper);
+  border-radius: 6px;
+  padding: calc(var(--sheet-pad) + 2.5rem) var(--sheet-pad) calc(var(--sheet-pad) + 3.5rem);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset, 0 2px 4px rgba(0, 0, 0, 0.25), 0 24px 48px rgba(0, 0, 0, 0.35);
+}
+
+/* Double gold frame with rounded corners, as on Mom's printed pages */
+.sheet::before,
+.sheet::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  border: 1.5px solid var(--gold-leaf);
+  border-radius: 22px;
+  inset: clamp(0.6rem, 2vw, 1.25rem);
+}
+.sheet::after {
+  inset: calc(clamp(0.6rem, 2vw, 1.25rem) + 6px);
+  border-width: 1px;
+  border-radius: 17px;
+  opacity: 0.7;
+}
+
+/* scrollwork sits just inside the inner frame line */
+.corner {
+  --at: calc(clamp(0.6rem, 2vw, 1.25rem) + 9px);
+  position: absolute;
+  width: clamp(64px, 14vw, 128px);
+  pointer-events: none;
+}
+.corner-tl { top: var(--at); left: var(--at); }
+.corner-tr { top: var(--at); right: var(--at); transform: scaleX(-1); }
+.corner-bl { bottom: var(--at); left: var(--at); transform: scaleY(-1); }
+.corner-br { bottom: var(--at); right: var(--at); transform: scale(-1); }
+
+.sheet-laurel {
+  position: absolute;
+  top: clamp(1.4rem, 3.5vw, 2.4rem);
+  left: 50%;
+  translate: -50% 0;
+  width: clamp(150px, 34%, 250px);
+}
+
+/* Divider tab sticking out of the page edge, like the binder's section tabs */
+.binder-tab {
+  display: none;
+  position: absolute;
+  top: 8rem;
+  right: -2.4rem;
+  margin: 0;
+  padding: 1rem 0.5rem;
+  writing-mode: vertical-rl;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.4rem;
+  color: var(--ink);
+  background: var(--tab);
+  border-radius: 0 10px 10px 0;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.25);
+}
+.binder-tab:empty { display: none; }
+
+/* ---------- Recipe header ---------- */
+
+.recipe-head { text-align: center; margin-bottom: var(--line); }
+
+.recipe-head h1 {
+  margin: 0;
+  font-weight: 500;
+  font-size: clamp(2.6rem, 8vw, 3.75rem);
+  line-height: calc(var(--line) * 2);
+  letter-spacing: 0.01em;
+}
+.subtitle {
+  margin: 0;
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--gold-ink);
+}
+
+.times { margin: calc(var(--line) / 2) 0 0; }
+.times dt, .times dd { display: inline; margin: 0; }
+.times dt { font-weight: 700; }
+.times dt::after { content: ":"; }
+.times dd { margin-left: 0.3em; }
+.times dd + dt { margin-left: 1.75rem; }
+
+.tags {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: calc(var(--line) / 2) 0 0;
+}
+.tags li {
+  font-size: 0.95rem;
+  line-height: 1.6rem;
+  padding: 0 0.8rem;
+  border: 1px solid var(--gold-leaf);
+  border-radius: 999px;
+  color: var(--gold-ink);
+  background: #fffdf8;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: var(--line);
+}
+
+.btn {
+  font: 500 1.05rem/1 var(--serif);
+  padding: 0.7rem 1.2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1.5px solid var(--royal);
+}
+.btn-primary { background: var(--royal); color: var(--paper); }
+.btn-primary:hover { background: var(--aegean); }
+.btn-quiet { background: transparent; color: var(--royal); }
+.btn-quiet:hover { background: rgba(20, 52, 122, 0.07); }
+
+/* ---------- Body: ingredients beside the key photo, method below ---------- */
+
+.recipe-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas: "photo" "ingredients" "method" "notes";
+  column-gap: 2.5rem;
+}
+
+.recipe-body h2 {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: var(--line);
+  color: var(--royal);
+}
+.recipe-body section + section { margin-top: var(--line); }
+.recipe-body ul, .recipe-body ol { margin: 0; padding: 0; }
+
+.key-photo {
+  grid-area: photo;
+  margin: 0 0 var(--line);
+}
+.key-photo img {
+  width: 100%;
+  height: calc(var(--line) * 12);
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(27, 36, 64, 0.25);
+}
+
+.ingredients { grid-area: ingredients; }
+.ingredients ul { list-style: none; }
+.ingredients li { padding-left: 1rem; text-indent: -1rem; }
+.ingredients .qty { font-weight: 700; margin-right: 0.4em; }
+.ingredient-group h3 { margin: 0; font-size: 1.1rem; line-height: var(--line); font-style: italic; }
+
+.method { grid-area: method; }
+.method ol { list-style: none; counter-reset: step; }
+.method li { counter-increment: step; position: relative; padding-left: 2.25rem; }
+.method li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+  color: var(--gold-ink);
+}
+
+.from-mom { grid-area: notes; }
+.from-mom p { margin: 0; }
+
+/* Mom's own asides, kept in her words. Typed (not a handwriting font) so nobody
+   mistakes it for her actual hand; the scan is there for that. */
+.mom-note { font-style: italic; color: var(--royal); }
+li .mom-note::before { content: "("; }
+li .mom-note::after { content: ")"; }
+.from-mom p { padding-left: 1rem; border-left: 2px solid var(--gold-leaf); }
+.from-mom p + p { margin-top: calc(var(--line) / 4); }
+
+@media (min-width: 720px) {
+  .recipe-body {
+    grid-template-columns: 1fr minmax(0, 17rem);
+    grid-template-areas:
+      "ingredients photo"
+      "method method"
+      "notes notes";
+  }
+  .key-photo { margin: 0; }
+  .key-photo img { height: calc(var(--line) * 11); }
+  .ingredients + .method, .key-photo ~ .method { margin-top: var(--line); }
+}
+
+@media (min-width: 1000px) {
+  .binder-tab { display: block; }
+}
+
+/* ---------- Family photos: a clear binder sleeve ---------- */
+
+.sleeve {
+  position: relative;
+  margin-top: 3rem;
+  padding: 2rem clamp(1.25rem, 5vw, 3rem) 2rem clamp(3rem, 8vw, 4.5rem);
+  color: var(--paper);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06) 45%, rgba(255, 255, 255, 0.11));
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 10px;
+}
+/* three punched holes down the sleeve's edge */
+.sleeve::before {
+  content: "";
+  position: absolute;
+  left: clamp(0.9rem, 2.5vw, 1.4rem);
+  top: 1.5rem;
+  bottom: 1.5rem;
+  width: 14px;
+  background:
+    radial-gradient(circle, var(--aegean) 6px, rgba(255, 255, 255, 0.35) 7px, transparent 8px) top / 14px 14px no-repeat,
+    radial-gradient(circle, var(--aegean) 6px, rgba(255, 255, 255, 0.35) 7px, transparent 8px) center / 14px 14px no-repeat,
+    radial-gradient(circle, var(--aegean) 6px, rgba(255, 255, 255, 0.35) 7px, transparent 8px) bottom / 14px 14px no-repeat;
+}
+
+.sleeve h2 { margin: 0; font-size: 1.6rem; color: var(--gold-foil); }
+.sleeve-lede { margin: 0.25rem 0 1.25rem; }
+
+.gallery {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: 0.75rem;
+}
+.gallery img { aspect-ratio: 1; object-fit: cover; border-radius: 8px; }
+.gallery-empty { grid-column: 1 / -1; font-style: italic; opacity: 0.85; }
+
+.dropzone {
+  display: grid;
+  place-items: center;
+  gap: 0.25rem;
+  padding: 1.75rem 1rem;
+  text-align: center;
+  border: 2px dashed var(--gold-foil);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+.dropzone:hover, .dropzone.dragging { background: rgba(217, 188, 134, 0.12); }
+.dropzone:focus-within { outline: 3px solid var(--gold-foil); outline-offset: 3px; }
+.dropzone input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.dropzone-main { font-weight: 700; font-size: 1.15rem; }
+.dropzone-hint { font-size: 0.95rem; opacity: 0.85; }
+
+.upload-queue { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: 0.75rem; }
+.queued {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.6rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  line-height: 1.4;
+}
+.queued img { width: 64px; height: 64px; object-fit: cover; border-radius: 6px; flex: none; }
+.queued div { display: grid; }
+.queued strong { overflow-wrap: anywhere; }
+.queued.rejected { border-left: 4px solid #f0a27a; }
+.queued.ok { border-left: 4px solid var(--tab); }
+
+/* ---------- Original page viewer ---------- */
+
+.original-dialog {
+  width: min(100% - 2rem, 46rem);
+  max-height: calc(100vh - 2rem);
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.original-dialog::backdrop { background: rgba(8, 20, 46, 0.8); }
+.original-dialog-bar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+}
+.original-dialog-bar h2 { margin: 0; font-size: 1.2rem; }
+.original-pages { padding: 1rem; display: grid; gap: 1rem; }
+
+.print-original { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+/* ---------- Printing ---------- */
+
+@media print {
+  @page { margin: 0.4in; }
+  body { background: none; font-size: 11.5pt; }
+  .masthead, .sleeve, .actions, .binder-tab, .original-dialog { display: none !important; }
+  main { width: auto; margin: 0; }
+  .sheet { box-shadow: none; padding: 0.9in 0.6in 0.6in; }
+
+  /* "Print Mom's original": only the scanned pages, one per sheet */
+  .printing-original main { display: none; }
+  .printing-original .print-original { display: block; }
+  .printing-original .print-original img {
+    width: 100%;
+    height: 9.9in;
+    object-fit: contain;
+    break-after: page;
+  }
+}

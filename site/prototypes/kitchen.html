@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prototype C: Kitchen mode</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Atkinson Hyperlegible: built for legibility, readable from across the counter -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="base.css">
+  <style>
+    body { font: 1.125rem/1.55 "Atkinson Hyperlegible", system-ui, sans-serif; background: #fff; }
+    .bar { position: sticky; top: 0; z-index: 2; background: var(--aegean); color: #fff; }
+    .bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.7rem 0; }
+    .bar a { color: #fff; font-weight: 700; text-decoration: none; }
+    .wake { display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; cursor: pointer; }
+    .wake input { width: 1.1rem; height: 1.1rem; accent-color: var(--gold); }
+    .wrap { width: min(100% - 2rem, 70rem); margin: 0 auto; }
+
+    .hero { display: grid; gap: 1.5rem; padding: 2rem 0; }
+    .category { margin: 0; color: var(--gold-ink); font-weight: 700; }
+    h1 { margin: 0.25rem 0 0; font-size: clamp(2.6rem, 8vw, 4rem); line-height: 1.05; color: var(--aegean); }
+    .subtitle { margin: 0.4rem 0 0; color: var(--muted); font-style: italic; }
+    .times { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.5rem 0 0; }
+    .time { padding: 0.6rem 1rem; border-radius: 10px; background: #f1f4f9; }
+    .times dt { font-size: 0.85rem; color: var(--muted); }
+    .times dd { margin: 0; font-weight: 700; color: var(--aegean); }
+    .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+    .btn { font: 700 1rem/1 "Atkinson Hyperlegible", sans-serif; padding: 0.85rem 1.2rem; border-radius: 10px; cursor: pointer; border: 2px solid var(--aegean); }
+    .btn-solid { background: var(--aegean); color: #fff; }
+    .btn-line { background: #fff; color: var(--aegean); }
+    .hero figure { margin: 0; }
+    .hero img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 30%; border-radius: 16px; }
+
+    .cook { display: grid; gap: 2rem; padding: 1rem 0 3rem; }
+    h2 { margin: 0 0 0.75rem; font-size: 1.4rem; color: var(--aegean); }
+    .ingredients { background: #f1f4f9; border-radius: 16px; padding: 1.5rem; align-self: start; }
+    .ingredients ul { list-style: none; margin: 0; padding: 0; }
+    .ingredients li { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.55rem 0; border-bottom: 1px solid #dfe4ee; }
+    .ingredients li:last-child { border-bottom: 0; }
+    .ingredients input { flex: none; width: 1.3rem; height: 1.3rem; margin-top: 0.2rem; accent-color: var(--aegean); }
+    .ingredients label { cursor: pointer; }
+    .ingredients input:checked + label { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--gold); }
+    .qty { font-weight: 700; }
+    .note { color: var(--gold-ink); font-style: italic; }
+    .hint { margin: 0.75rem 0 0; font-size: 0.9rem; color: var(--muted); }
+
+    .method ol { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+    .method li { counter-increment: step; display: grid; grid-template-columns: 2.5rem 1fr; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+    .method li::before { content: counter(step); display: grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: var(--aegean); color: #fff; font-weight: 700; }
+    .method p { margin: 0.35rem 0 0; font-size: 1.2rem; }
+    .mom { margin-top: 1.5rem; padding: 1.25rem 1.5rem; border-left: 4px solid var(--gold); background: #fbf9f6; border-radius: 0 12px 12px 0; }
+    .mom h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--gold-ink); }
+    .mom p { margin: 0; }
+    .mom p + p { margin-top: 0.4rem; }
+
+    .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0; margin: 1.25rem 0 0; }
+    .tags a { display: block; padding: 0.3rem 0.75rem; border: 1px solid #cfd6e4; border-radius: 8px; font-size: 0.9rem; color: var(--aegean); text-decoration: none; }
+
+    .photos { padding: 2rem 0 4rem; border-top: 1px solid var(--line); }
+    .gallery { list-style: none; padding: 0; margin: 0 0 1rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr)); gap: 0.75rem; }
+    .gallery .empty { color: var(--muted); grid-column: 1 / -1; }
+    .dropzone { display: block; padding: 1.5rem; border-radius: 14px; border: 2px dashed #b9c2d6; text-align: center; font-weight: 700; color: var(--aegean); cursor: pointer; }
+    .dropzone:hover, .dropzone.dragging { background: #f1f4f9; }
+    .dropzone small { display: block; font-weight: 400; color: var(--muted); }
+
+    @media (min-width: 800px) {
+      .hero { grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+      .cook { grid-template-columns: 22rem 1fr; gap: 3rem; }
+      .ingredients { position: sticky; top: 4.5rem; }
+    }
+    @media print { .bar { display: none; } .ingredients input { display: none; } .hero img { max-height: 3in; } }
+  </style>
+</head>
+<body>
+  <header class="bar no-print">
+    <div class="wrap">
+      <a href="index.html">Karatassos Family Recipes</a>
+      <label class="wake" id="wake-label" hidden><input type="checkbox" id="wake"> Keep screen on while cooking</label>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <p class="category" data-field="category"></p>
+        <h1 data-field="title"></h1>
+        <p class="subtitle" data-field="subtitle"></p>
+        <dl class="times" data-field="times"></dl>
+        <div class="actions no-print">
+          <button class="btn btn-solid" data-action="print-original">Print Mom's original</button>
+          <button class="btn btn-line" data-action="view-original">See the original page</button>
+        </div>
+        <ul class="tags no-print" data-field="tags" aria-label="Tags"></ul>
+      </div>
+      <figure data-field="keyPhoto"></figure>
+    </section>
+
+    <section class="cook">
+      <div class="ingredients">
+        <h2>Ingredients</h2>
+        <div data-field="ingredients"></div>
+        <p class="hint no-print">Tap each one as you add it.</p>
+      </div>
+      <div class="method">
+        <h2>Method</h2>
+        <ol data-field="steps"></ol>
+        <aside class="mom"><h3>From Mom</h3><div data-field="notes"></div></aside>
+      </div>
+    </section>
+
+    <section class="photos no-print" aria-labelledby="photos-h">
+      <h2 id="photos-h">Family photos</h2>
+      <ul class="gallery" data-field="photos"></ul>
+      <label class="dropzone" id="dropzone">
+        <input type="file" id="photo-input" accept="image/jpeg,image/png,image/webp,image/heic" multiple>
+        Add a photo of yours<small>JPEG, PNG, WebP or HEIC, up to 15 MB</small>
+      </label>
+      <ul class="upload-queue" id="upload-queue" aria-live="polite"></ul>
+    </section>
+  </main>
+
+  <dialog class="original-dialog" id="original-dialog" aria-labelledby="od-h">
+    <form method="dialog"><h2 id="od-h">Mom's original page</h2><button class="btn btn-line">Close</button></form>
+    <div class="pages" data-field="scans"></div>
+  </dialog>
+  <div class="print-original" data-field="printScans" aria-hidden="true"></div>
+
+  <script type="module">
+    import { renderRecipe } from "./shared.js";
+    renderRecipe({ checkable: true });
+
+    // Screen Wake Lock: stops the phone dimming mid-recipe. Hidden where unsupported.
+    if ("wakeLock" in navigator) {
+      const box = document.getElementById("wake");
+      let lock = null;
+      document.getElementById("wake-label").hidden = false;
+      const acquire = async () => { try { lock = await navigator.wakeLock.request("screen"); } catch { box.checked = false; } };
+      box.addEventListener("change", async () => { if (box.checked) await acquire(); else { await lock?.release(); lock = null; } });
+      // The browser drops the lock when the tab is hidden; take it back on return.
+      document.addEventListener("visibilitychange", () => { if (box.checked && document.visibilityState === "visible") acquire(); });
+    }
+  </script>
+  <script src="../js/upload.js" defer></script>
+</body>
+</html>

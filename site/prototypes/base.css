@@ -1,0 +1,46 @@
+/* Shared by all three prototypes: palette, dialog, upload list, printing. */
+:root {
+  --aegean: #0e2a5e;   /* deep Greek blue */
+  --royal: #14347a;
+  --gold: #b48e67;     /* measured from Mom's printed pages; decoration only on white */
+  --gold-ink: #8a6430; /* gold that passes contrast for small text on white */
+  --ink: #1b2440;
+  --muted: #5b6275;
+  --line: #e3e6ee;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; color: var(--ink); -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; height: auto; }
+:focus-visible { outline: 3px solid var(--royal); outline-offset: 3px; }
+a { color: var(--royal); }
+
+/* Original-page viewer */
+.original-dialog { width: min(100% - 2rem, 46rem); max-height: calc(100vh - 2rem); padding: 0; border: 0; border-radius: 12px; }
+.original-dialog::backdrop { background: rgba(8, 20, 46, 0.75); }
+.original-dialog form { position: sticky; top: 0; display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: #fff; border-bottom: 1px solid var(--line); }
+.original-dialog h2 { margin: 0; font-size: 1.1rem; }
+.original-dialog .pages { padding: 1rem; display: grid; gap: 1rem; }
+
+/* Upload list (filled by ../js/upload.js) */
+.dropzone input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.dropzone:focus-within { outline: 3px solid var(--royal); outline-offset: 3px; }
+.upload-queue { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: 0.5rem; }
+.queued { display: flex; gap: 0.75rem; align-items: center; padding: 0.5rem 0.75rem; border-radius: 8px; background: #f3f5f9; line-height: 1.4; }
+.queued img { width: 56px; height: 56px; object-fit: cover; border-radius: 6px; flex: none; }
+.queued div { display: grid; }
+.queued strong { overflow-wrap: anywhere; }
+.queued.rejected { box-shadow: inset 4px 0 #c2410c; }
+.queued.ok { box-shadow: inset 4px 0 var(--gold); }
+
+.print-original { display: none; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+@media print {
+  @page { margin: 0.5in; }
+  .no-print, .original-dialog { display: none !important; }
+  .printing-original body > :not(.print-original) { display: none !important; }
+  .printing-original .print-original { display: block; }
+  .printing-original .print-original img { width: 100%; height: 9.8in; object-fit: contain; break-after: page; }
+}

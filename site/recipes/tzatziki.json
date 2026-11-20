@@ -1,0 +1,44 @@
+{
+  "slug": "tzatziki",
+  "title": "Tzatziki",
+  "subtitle": "Gyro sauce, aka yogurt sauce",
+  "category": "Sauces & Dips",
+  "tags": ["Greek", "Sauce", "Dip", "Vegetarian", "Make ahead"],
+  "times": [
+    { "label": "Prep", "value": "15 min" },
+    { "label": "Chill", "value": "Overnight" }
+  ],
+  "keyPhoto": {
+    "src": "assets/photos/tzatziki-key.jpg",
+    "alt": "Kevin at the kitchen counter with a red bowl of fresh tzatziki next to a big tin of Kalamata olive oil"
+  },
+  "scans": [
+    { "page": 1, "src": "assets/scans/tzatziki-p1.jpg" }
+  ],
+  "ingredientGroups": [
+    {
+      "name": null,
+      "items": [
+        { "qty": "16 oz", "item": "plain Greek yogurt", "note": "Fage is #1 for this" },
+        { "qty": "1 medium", "item": "cucumber, peeled, seeds removed, shredded" },
+        { "qty": "2 tsp", "item": "minced garlic" },
+        { "qty": "½ tsp", "item": "dried dill" },
+        { "qty": "1 Tbsp", "item": "olive oil" },
+        { "qty": null, "item": "Salt and pepper to taste" }
+      ]
+    }
+  ],
+  "steps": [
+    { "text": "Pour off any liquid from the yogurt." },
+    { "text": "Peel the cucumber, slice it in half lengthwise, and spoon out the seeds." },
+    { "text": "Grate the cucumber into a bowl, then squeeze out the extra liquid.", "note": "I hold a paper towel" },
+    { "text": "Add all the ingredients and mix well. Add a little salt to taste, plus a pinch or sprinkle of pepper." },
+    { "text": "Cover and refrigerate overnight.", "note": "Done!" }
+  ],
+  "notes": [
+    "Tzatziki is great on all types of meat, especially chicken or pork souvlaki.",
+    "Our son Kevin Peter, who served a mission in Greece, says our homemade is delicious.",
+    "Our family even puts it on hot dogs!"
+  ],
+  "photos": []
+}

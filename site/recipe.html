@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recipe | Karatassos Family Recipes</title>
+  <meta name="description" content="Mom's handwritten family recipes, typed up and kept together.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/ornaments/corner.svg" type="image/svg+xml">
+  <script src="js/recipe.js" defer></script>
+  <script src="js/upload.js" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <p class="masthead-title">Karatassos Family Recipes</p>
+  </header>
+
+  <main>
+    <article class="sheet" id="recipe" aria-busy="true">
+      <img class="corner corner-tl" src="assets/ornaments/corner.svg" alt="">
+      <img class="corner corner-tr" src="assets/ornaments/corner.svg" alt="">
+      <img class="corner corner-bl" src="assets/ornaments/corner.svg" alt="">
+      <img class="corner corner-br" src="assets/ornaments/corner.svg" alt="">
+      <img class="sheet-laurel" src="assets/ornaments/laurel.svg" alt="">
+      <p class="binder-tab" data-field="category"></p>
+
+      <header class="recipe-head">
+        <h1 data-field="title">Loading recipe…</h1>
+        <p class="subtitle" data-field="subtitle"></p>
+        <dl class="times" data-field="times"></dl>
+        <ul class="tags" data-field="tags" aria-label="Tags"></ul>
+        <div class="actions">
+          <button type="button" class="btn btn-primary" id="print-original">Print Mom's original</button>
+          <button type="button" class="btn btn-quiet" id="view-original">See the original page</button>
+        </div>
+      </header>
+
+      <div class="recipe-body">
+        <figure class="key-photo" data-field="keyPhoto"></figure>
+        <section class="ingredients" aria-labelledby="ingredients-h">
+          <h2 id="ingredients-h">Ingredients</h2>
+          <div data-field="ingredientGroups"></div>
+        </section>
+        <section class="method" aria-labelledby="method-h">
+          <h2 id="method-h">Method</h2>
+          <ol data-field="steps"></ol>
+        </section>
+        <section class="from-mom" aria-labelledby="from-mom-h">
+          <h2 id="from-mom-h">From Mom</h2>
+          <div data-field="notes"></div>
+        </section>
+      </div>
+    </article>
+
+    <section class="sleeve" aria-labelledby="photos-h">
+      <h2 id="photos-h">Family photos</h2>
+      <p class="sleeve-lede">Made this one? Add a picture of yours.</p>
+      <ul class="gallery" data-field="photos"></ul>
+
+      <label class="dropzone" id="dropzone">
+        <input type="file" id="photo-input" accept="image/jpeg,image/png,image/webp,image/heic" multiple>
+        <span class="dropzone-main">Choose photos or drop them here</span>
+        <span class="dropzone-hint">JPEG, PNG, WebP or HEIC, up to 15 MB each</span>
+      </label>
+      <ul class="upload-queue" id="upload-queue" aria-live="polite"></ul>
+    </section>
+  </main>
+
+  <dialog class="original-dialog" id="original-dialog" aria-labelledby="original-dialog-h">
+    <form method="dialog" class="original-dialog-bar">
+      <h2 id="original-dialog-h">Mom's original page</h2>
+      <button class="btn btn-quiet" value="close">Close</button>
+    </form>
+    <div class="original-pages" data-field="scans"></div>
+  </dialog>
+
+  <div class="print-original" data-field="printScans" aria-hidden="true"></div>
+</body>
+</html>
